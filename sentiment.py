@@ -1,7 +1,9 @@
+import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 import streamlit as st
 import time
 
+nltk.download('vader_lexicon')
 st.title("Instant Sentiment Analysis")
 text = st.text_area("Enter the text to be analyzed:")
 button = st.button("Analyze!")
