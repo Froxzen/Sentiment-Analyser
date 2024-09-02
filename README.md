@@ -2,6 +2,10 @@
 
 This project is a sentiment analysis application built with Streamlit and NLTK's SentimentIntensityAnalyzer. It allows users to enter text and receive sentiment feedback along with a visual representation of the sentiment score.
 
+## Live Demo
+
+Try out the app here: [Sentiment Analysis App](https://sentiment-analyserio.streamlit.app/)
+
 ## Features
 
 - **Text Input**: Enter any text to analyze.
