@@ -1,2 +1,2 @@
-streamlit
-nltk
+streamlit==1.14.0
+nltk==3.8.1
