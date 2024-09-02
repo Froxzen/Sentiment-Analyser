@@ -16,12 +16,11 @@ def score():
 
 def display_message():
     if text:
-        progress_text = "Analysing text..."
-        my_bar = st.progress(0, text=progress_text)
+        my_bar = st.progress(0)
 
         for percent_complete in range(100):
             time.sleep(0.01)
-            my_bar.progress(percent_complete + 1, text=progress_text)
+            my_bar.progress(percent_complete + 1, text="Analysing Text...")
         time.sleep(1)
         my_bar.empty()
 
