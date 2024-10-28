@@ -4,7 +4,7 @@ This project is a sentiment analysis application built with Streamlit and NLTK's
 
 ## Live Demo
 
-Try out the app here: [Sentiment Analysis App](https://sentiment-analyserio.streamlit.app/)
+Try out the live demo [here](https://sentiment-analyser-ai.streamlit.app/)
 
 ## Features
 
