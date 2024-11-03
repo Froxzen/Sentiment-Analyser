@@ -2,11 +2,21 @@ import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 import streamlit as st
 import time
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 nltk.download('vader_lexicon')
 st.title("Instant Sentiment Analysis")
 text = st.text_area("Enter the text to be analyzed:")
 button = st.button("Analyze!")
+
+# Test data for accuracy prediction
+test_data = [
+    {"text": "I love this product!", "label": "positive"},
+    {"text": "This is the worst service ever.", "label": "negative"},
+    {"text": "I'm feeling great today!", "label": "positive"},
+    {"text": "I don't like this.", "label": "negative"},
+    {"text": "It's okay, not bad.", "label": "neutral"}
+]
 
 def score():
     sia = SentimentIntensityAnalyzer()                                          
