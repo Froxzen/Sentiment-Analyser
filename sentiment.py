@@ -3,27 +3,32 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 import streamlit as st
 import time
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from test_data import test_data
 
 nltk.download('vader_lexicon')
-st.title("Instant Sentiment Analysis")
+
+st.title("Instant Sentiment Analysis with Metrics")
 text = st.text_area("Enter the text to be analyzed:")
+
 button = st.button("Analyze!")
 
-# Test data for accuracy prediction
-test_data = [
-    {"text": "I love this product!", "label": "positive"},
-    {"text": "This is the worst service ever.", "label": "negative"},
-    {"text": "I'm feeling great today!", "label": "positive"},
-    {"text": "I don't like this.", "label": "negative"},
-    {"text": "It's okay, not bad.", "label": "neutral"}
-]
-
-def score():
-    sia = SentimentIntensityAnalyzer()                                          
+# Get sentiment score
+def get_score(text):
+    sia = SentimentIntensityAnalyzer()
     score = sia.polarity_scores(text)
     rounded_score = round(score['compound'], 2)
     return rounded_score
 
+# Get predicted sentiment label based on score
+def get_sentiment_label(score):
+    if score > 0:
+        return "positive"
+    elif score < 0:
+        return "negative"
+    else:
+        return "neutral"
+
+# Display sentiment message
 def display_message():
     if text:
         my_bar = st.progress(0)
@@ -34,23 +39,26 @@ def display_message():
         time.sleep(1)
         my_bar.empty()
 
-        if score() > 0:
-            sentiment = f"This is +{score()} <span style='color:lightgreen'>Positive!</span>"
-        elif score() < 0:
-            sentiment = f"This is {score()} <span style='color:rgb(240, 40, 40)'>Negative!</span>"
+        sentiment_score = get_score(text)
+        sentiment_label = get_sentiment_label(sentiment_score)
+
+        if sentiment_label == "positive":
+            sentiment = f"This is +{sentiment_score} <span style='color:lightgreen'>Positive!</span>"
+        elif sentiment_label == "negative":
+            sentiment = f"This is {sentiment_score} <span style='color:rgb(240, 40, 40)'>Negative!</span>"
         else:
             sentiment = "This is 0 <span style='color:grey'>Neutral!</span>"
+        
         st.markdown(sentiment, unsafe_allow_html=True)
 
-
+# Display sentiment score bar
 def display_bar():
-    # Calculate line position based on compound score
-    line_position = (score() + 1) * 50 
+    sentiment_score = get_score(text)
+    line_position = (sentiment_score + 1) * 50
     
     if not text:
         st.write("Score Range Indicator")
         
-    # HTML and CSS for the score range bar with a line indicating the score 
     score_range_html = f"""
     <div style="display: flex; align-items: center; flex-direction: column; width: 240px;">
         <div style="display: flex; width: 100%; height: 20px; border-radius: 5px; overflow: hidden; position: relative;">
@@ -68,8 +76,17 @@ def display_bar():
         </div>
     </div>
     """
-    # Render the score range bar with the line
     st.markdown(score_range_html, unsafe_allow_html=True)
+
+# Evaluate and display metrics
+def print_accuracy():
+    true_labels = [item["label"] for item in test_data]
+    predicted_labels = [get_sentiment_label(get_score(item["text"])) for item in test_data]
+
+    acc = accuracy_score(true_labels, predicted_labels)
+
+    print(f"Accuracy: {acc:.2f}")
 
 display_message()
 display_bar()
+print_accuracy()
