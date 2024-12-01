@@ -7,7 +7,7 @@ from test_data import test_data
 
 nltk.download('vader_lexicon')
 
-st.title("Instant Sentiment Analysis with Metrics")
+st.title("Instant Sentiment Analysis")
 text = st.text_area("Enter the text to be analyzed:")
 
 button = st.button("Analyze!")
